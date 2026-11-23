@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}Quiz de Carreira - Trilhar{% endblock %}
+
+{% block content %}
+<div class="quiz-container">
+  <div class="card">
+    <div class="card-body">
+      <div class="quiz-header">
+        <div style="width: 48px; height: 48px; border-radius: 12px; background: var(--color-brand-light); color: var(--color-brand); display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 1.5rem;">🎯</div>
+        <h1 style="font-size: 1.75rem; font-weight: 700; color: var(--color-text); margin-bottom: 0.5rem;">Quiz de Carreira em TI</h1>
+        <p style="color: var(--color-text-muted);">Responda {{ total }} perguntas para descobrir sua carreira ideal</p>
+      </div>
+
+      <form id="quiz-form" method="post" action="/aluno/quiz">
+        {% for qid in questoes_ids %}
+        <input type="hidden" name="questoes_ids" value="{{ qid }}">
+        {% endfor %}
+
+        <div class="quiz-progress-bar-container">
+          <div class="quiz-progress-fill" id="progress-bar"></div>
+        </div>
+
+        {% for questao in questoes %}
+        <div class="quiz-question-card" id="q{{ questao.id }}">
+          <h3>{{ questao.pergunta }}</h3>
+          <div class="quiz-options">
+            {% for texto, carreira_id in questao.opcoes %}
+            <label class="quiz-option">
+              <input type="radio" name="q{{ questao.id }}" value="{{ carreira_id }}" required>
+              {{ texto }}
+            </label>
+            {% endfor %}
+          </div>
+          {% if not loop.last %}
+          <button type="button" class="btn btn-primary btn-sm mt-4" onclick="proximaQuestao({{ loop.index0 }})">Próxima</button>
+          {% endif %}
+        </div>
+        {% endfor %}
+
+        <button type="submit" class="btn btn-primary btn-full mt-4">Ver Resultado</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  var questoes = document.querySelectorAll('.quiz-question-card');
+  questoes.forEach(function(q, i) {
+    q.style.display = i === 0 ? 'block' : 'none';
+  });
+
+  function proximaQuestao(index) {
+    var selecionado = questoes[index].querySelector('input[type="radio"]:checked');
+    if (!selecionado) {
+      alert('Selecione uma opção antes de continuar');
+      return;
+    }
+    var proximoIndex = index + 1;
+    if (proximoIndex < questoes.length) {
+      questoes[index].style.display = 'none';
+      questoes[proximoIndex].style.display = 'block';
+      atualizarProgresso(proximoIndex + 1);
+    }
+  }
+
+  function atualizarProgresso(atual) {
+    var total = {{ total }};
+    var percentual = ((atual - 1) / total) * 100;
+    document.getElementById('progress-bar').style.width = percentual + '%';
+  }
+
+  document.getElementById('quiz-form').addEventListener('submit', function(e) {
+    var ultimoIndex = questoes.length - 1;
+    var selecionado = questoes[ultimoIndex].querySelector('input[type="radio"]:checked');
+    if (!selecionado) {
+      e.preventDefault();
+      alert('Selecione uma opção na última pergunta');
+    }
+  });
+</script>
+{% endblock %}

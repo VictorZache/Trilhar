@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}Trilhas de Aprendizagem - Trilhar{% endblock %}
+
+{% block content %}
+<div style="margin-bottom: 2rem;">
+  <h1 style="font-size: 1.75rem; font-weight: 700; color: var(--color.text); margin-bottom: 0.5rem;">Trilhas de Aprendizagem</h1>
+  <p style="color: var(--color.text-muted);">Escolha uma trilha para desenvolver suas habilidades em TI</p>
+</div>
+
+{% if trilhas %}
+<div class="trilha-grid">
+  {% for t in trilhas %}
+  <div class="trilha-card">
+    <div class="trilha-card-header">
+      <div class="trilha-card-icon">{{ t.icone }}</div>
+      <div class="trilha-card-info">
+        <h3>{{ t.nome }}</h3>
+        <p>{{ t.descricao }}</p>
+      </div>
+      <span class="trilha-card-badge">Recomendado para você</span>
+    </div>
+    <div class="trilha-card-body">
+      <div class="trilha-card-progress">
+        <div class="trilha-card-progress-label">
+          <span>Missão atual</span>
+          <span>{{ t.missao_atual }}</span>
+        </div>
+        <div class="trilha-card-progress-bar">
+          <div class="trilha-card-progress-fill" style="width: {{ (t.missao_atual / 10) * 100 }}%;"></div>
+        </div>
+      </div>
+      {% if t.concluida %}
+      <span style="color: var(--color.success); font-weight: 600; font-size: 0.875rem;">✓ Concluída</span>
+      {% endif %}
+    </div>
+    <div class="trilha-card-footer">
+      <a href="/estudante/trilha/{{ t.id }}" class="btn btn-primary btn-full">Iniciar Trilha</a>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<div class="empty-state">
+  <div class="icone">🎯</div>
+  <h3>Faça o Quiz de Carreira primeiro</h3>
+  <p>Faça o quiz para descobrir qual carreira de TI combina com você e desbloquear sua trilha recomendada.</p>
+  <a href="/aluno/quiz" class="btn btn-primary">Fazer Quiz</a>
+</div>
+{% endif %}
+
+<div style="text-align: center; margin-top: 2rem;">
+  <a href="/dashboard" class="btn btn-ghost">Voltar ao painel</a>
+</div>
+{% endblock %}

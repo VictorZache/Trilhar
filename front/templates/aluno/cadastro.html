@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cadastro de Aluno - Trilhar</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div class="container">
+  <div class="card">
+    <div class="logo">
+      <div class="logo-mark">T</div>
+      <div class="logo-text">Trilhar</div>
+    </div>
+    <h1>Cadastro de Aluno</h1>
+    <p class="subtitle">Crie sua conta para acessar o quiz de carreira</p>
+    {% if erro %}
+    <div class="alert erro">{{ erro }}</div>
+    {% endif %}
+    {% if sucesso %}
+    <div class="alert sucesso">{{ sucesso }}</div>
+    {% endif %}
+    <form method="post" action="/aluno/cadastro">
+      <div class="field">
+        <label for="username">Usuario</label>
+        <input type="text" id="username" name="username" required autocomplete="username">
+      </div>
+      <div class="field">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required autocomplete="email">
+      </div>
+      <div class="field">
+        <label for="senha">Senha</label>
+        <input type="password" id="senha" name="senha" required autocomplete="new-password">
+      </div>
+      <div class="field">
+        <label for="confirmar_senha">Confirmar senha</label>
+        <input type="password" id="confirmar_senha" name="confirmar_senha" required autocomplete="new-password">
+      </div>
+      <button type="submit" class="btn btn-primary">Criar conta</button>
+    </form>
+    <div class="divider">ou</div>
+    <p class="link">Ja tem conta? <a href="/login">Entrar</a></p>
+  </div>
+</div>
+</body>
+</html>

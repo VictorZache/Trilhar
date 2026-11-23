@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Painel - Trilhar{% endblock %}
+
+{% block content %}
+<div class="dashboard-header">
+  <h1 class="dashboard-title">Olá, {{ user.username }}!</h1>
+  <p class="dashboard-subtitle">Bem-vindo de volta ao seu painel de aprendizado</p>
+</div>
+
+<div class="dashboard-grid">
+  {% if user.tipo == "aluno" %}
+  <div class="dashboard-card">
+    <div class="dashboard-card-icon">🎯</div>
+    <h3>Quiz de Carreira</h3>
+    <p>Descubra qual carreira de TI combina com você</p>
+    {% if user.quiz_feito %}
+    <a href="/dashboard" class="btn btn-outline btn-sm">Já concluído</a>
+    {% else %}
+    <a href="/aluno/quiz" class="btn btn-primary btn-sm">Fazer Quiz</a>
+    {% endif %}
+  </div>
+  <div class="dashboard-card">
+    <div class="dashboard-card-icon">🗺️</div>
+    <h3>Trilhas de Aprendizagem</h3>
+    <p>Escolha uma trilha e comece a aprender</p>
+    <a href="/estudante/trilhas" class="btn btn-primary btn-sm">Ver Trilhas</a>
+  </div>
+  {% else %}
+  <div class="dashboard-card">
+    <div class="dashboard-card-icon">👨‍🏫</div>
+    <h3>Área do Professor</h3>
+    <p>Gerencie turmas e acompanhe alunos</p>
+    <a href="/dashboard" class="btn btn-outline btn-sm">Em breve</a>
+  </div>
+  {% endif %}
+</div>
+
+{% if user.tipo == "aluno" and user.quiz_feito %}
+<div class="alert alert-info">
+  ✅ Você já concluiu o quiz de carreira! Acesse as trilhas para começar a aprender.
+</div>
+{% endif %}
+
+<div style="text-align: center; margin-top: 2rem;">
+  <form method="post" action="/logout" style="display:inline;">
+    <button type="submit" class="btn btn-ghost">Sair</button>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,157 @@
+{% extends "base.html" %}
+
+{% block title %}{{ missao.titulo }} - Trilhar{% endblock %}
+
+{% block content %}
+<div class="missao-page-header">
+  <div>
+    <h1>{{ missao.titulo }}</h1>
+    <p class="missao-page-subtitle">{{ missao.descricao }}</p>
+  </div>
+  <div class="missao-ordem" style="width: 48px; height: 48px; font-size: 1rem;">{{ missao.ordem }}</div>
+</div>
+
+<div class="missao-page-nav">
+  <a href="/estudante/trilha/{{ trilha_id }}" class="btn btn-ghost btn-sm">← Voltar à trilha</a>
+  <a href="/dashboard" class="btn btn-ghost btn-sm">Painel</a>
+  <form method="post" action="/logout" style="display:inline;">
+    <button type="submit" class="btn btn-ghost btn-sm">Sair</button>
+  </form>
+</div>
+
+<div class="missao-progress-container">
+  <div class="missao-progress-label">
+    <span>Progresso</span>
+    <span>{{ missao.ordem }} de 10</span>
+  </div>
+  <div class="missao-progress-bar">
+    <div class="missao-progress-fill" style="width: {{ (missao.ordem / 10) * 100 }}%;"></div>
+  </div>
+</div>
+
+<div class="conteudo-teorico">
+  <h3>📚 Conteúdo Teórico</h3>
+  <p>{{ dados.conhecimento.descricao if dados.conhecimento else missao.descricao }}</p>
+</div>
+
+<div class="jogo-container">
+  <div class="jogo-instrucao">Tipo de jogo: <strong>{{ missao.tipo_jogo }}</strong></div>
+
+  {% if missao.tipo_jogo == "ordem" %}
+  <p style="color: var(--color.text-muted); text-align: center; margin-bottom: 1.5rem;">Arraste ou clique nos itens na ordem correta:</p>
+  <div class="ordem-selecao" id="ordem-atual"></div>
+  <div class="jogo-grid">
+    {% for item in dados.itens %}
+    <div class="jogo-card numero" data-valor="{{ item }}" onclick="selecionarOrdem('{{ item }}')">{{ item }}</div>
+    {% endfor %}
+  </div>
+
+  {% elif missao.tipo_jogo == "categoria" %}
+  <p style="color: var(--color.text-muted); text-align: center; margin-bottom: 1.5rem;">Arraste cada item para sua categoria:</p>
+  <div class="categoria-grid">
+    {% for cat in dados.categorias %}
+    <div class="categoria-card" data-categoria="{{ cat }}">
+      <h4>{{ cat }}</h4>
+      <div class="categoria-itens" id="cat-{{ cat }}"></div>
+    </div>
+    {% endfor %}
+  </div>
+  <div class="jogo-grid" style="margin-top: 1.5rem;">
+    {% for item in dados.itens %}
+    <div class="jogo-card" data-item="{{ item.nome }}" data-categoria="{{ item.categoria }}" onclick="selecionarCategoria('{{ item.nome }}', '{{ item.categoria }}')">{{ item.nome }}</div>
+    {% endfor %}
+  </div>
+
+  {% elif missao.tipo_jogo == "data" %}
+  <p style="color: var(--color.text-muted); text-align: center; margin-bottom: 1.5rem;">Organize do mais antigo para o mais recente:</p>
+  <div class="ordem-selecao" id="ordem-atual"></div>
+  <div class="jogo-grid">
+    {% for item in dados.itens %}
+    <div class="jogo-card numero" data-valor="{{ item.nome }}" onclick="selecionarOrdem('{{ item.nome }}')">
+      {{ item.nome }}
+      <br><span style="font-size: 0.875rem; color: var(--color.text-muted);">{{ item.data }}</span>
+    </div>
+    {% endfor %}
+  </div>
+
+  {% else %}
+  <div style="text-align: center; padding: 2rem; background: var(--color.surface-hover); border-radius: var(--radius.lg); border: 1px solid var(--color.border);">
+    <div style="font-size: 0.875rem; color: var(--color.text-muted); margin-bottom: 0.5rem;">Tipo de jogo: <strong>{{ missao.tipo_jogo }}</strong></div>
+    <div style="font-size: 0.95rem; color: var(--color.text-secondary);">{{ dados.conhecimento.descricao if dados.conhecimento else missao.descricao }}</div>
+    <div style="margin-top: 1rem; font-size: 0.875rem; color: var(--color.text-muted);">Minigame "{{ missao.tipo_jogo }}" - conteúdo teórico carregado acima.</div>
+  </div>
+  {% endif %}
+
+  <div class="quiz-actions" style="margin-top: 1.5rem; display: flex; gap: 0.75rem; justify-content: center;">
+    <button type="submit" class="btn btn-primary">Enviar resposta</button>
+    <a href="/estudante/trilha/{{ trilha_id }}" class="btn btn-outline">Pular</a>
+  </div>
+</div>
+
+<form id="jogo-form" method="post" action="/estudante/trilha/{{ trilha_id }}/missao/{{ missao_id }}" style="display: none;">
+  <input type="hidden" name="tipo_jogo" value="{{ missao.tipo_jogo }}">
+  <input type="hidden" name="resposta" id="resposta-hidden">
+</form>
+
+<script>
+  var ordemSelecionada = [];
+
+  {% if missao.tipo_jogo == "ordem" or missao.tipo_jogo == "data" %}
+  var todosItens = [
+    {% for item in dados.itens %}
+    "{{ item if missao.tipo_jogo == 'ordem' else item.nome }}",
+    {% endfor %}
+  ];
+  {% endif %}
+
+  function selecionarOrdem(valor) {
+    if (ordemSelecionada.includes(valor)) return;
+    ordemSelecionada.push(valor);
+    atualizarOrdemVisual();
+  }
+
+  function atualizarOrdemVisual() {
+    var container = document.getElementById('ordem-atual');
+    container.innerHTML = '';
+    ordemSelecionada.forEach(function(item, idx) {
+      var el = document.createElement('div');
+      el.className = 'ordem-item';
+      el.textContent = (idx + 1) + '. ' + item;
+      el.onclick = function() {
+        ordemSelecionada.splice(idx, 1);
+        atualizarOrdemVisual();
+      };
+      container.appendChild(el);
+    });
+    document.querySelectorAll('.jogo-card').forEach(function(card) {
+      var valor = card.getAttribute('data-valor');
+      if (ordemSelecionada.includes(valor)) {
+        card.classList.add('selecionado');
+      } else {
+        card.classList.remove('selecionado');
+      }
+    });
+  }
+
+  function selecionarCategoria(itemNome, categoria) {
+    document.querySelectorAll('.categoria-item').forEach(function(el) {
+      if (el.getAttribute('data-item') === itemNome) {
+        el.remove();
+      }
+    });
+    var container = document.getElementById('cat-' + categoria);
+    var el = document.createElement('div');
+    el.className = 'categoria-item';
+    el.setAttribute('data-item', itemNome);
+    el.textContent = itemNome;
+    el.onclick = function() { el.remove(); };
+    container.appendChild(el);
+  }
+
+  document.getElementById('jogo-form').addEventListener('submit', function(e) {
+    if (ordemSelecionada.length > 0) {
+      document.getElementById('resposta-hidden').value = JSON.stringify(ordemSelecionada);
+    }
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}{{ trilha.nome }} - Trilhar{% endblock %}
+
+{% block content %}
+<div class="trilha-hero">
+  <div style="flex: 1;">
+    <h1>{{ trilha.nome }}</h1>
+    <p>{{ trilha.descricao }}</p>
+  </div>
+  <div style="font-size: 4rem; opacity: 0.2;">{{ trilha.icone }}</div>
+</div>
+
+<h2 style="font-size: 1.25rem; font-weight: 600; color: var(--color.text); margin-bottom: 1rem;">Suas Missões</h2>
+
+<div class="missoes-grid">
+  {% for m in missoes %}
+  <div class="missao-card">
+    <div class="missao-card-header">
+      <div>
+        <h3>{{ m.titulo }}</h3>
+        <span class="tipo-jogo-badge"><span class="tipo-dot"></span>{{ m.tipo_jogo }}</span>
+      </div>
+      <div class="missao-ordem">{{ m.ordem }}</div>
+    </div>
+    <p>{{ m.descricao }}</p>
+    <div class="missao-card-footer">
+      <a href="/estudante/trilha/{{ trilha.id }}/missao/{{ m.id }}" class="btn btn-primary btn-full">Iniciar missão</a>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+<div style="text-align: center; margin-top: 2rem;">
+  <a href="/estudante/trilhas" class="btn btn-ghost">Voltar às trilhas</a>
+</div>
+{% endblock %}

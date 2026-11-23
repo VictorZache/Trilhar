@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}Cadastro - Trilhar{% endblock %}
+
+{% block content %}
+<div class="card" style="max-width: 500px; margin: 0 auto;">
+  <div class="card-body">
+    <div style="text-align: center; margin-bottom: 2rem;">
+      <div style="width: 56px; height: 56px; border-radius: 16px; background: linear-gradient(135deg, var(--color-brand), var(--color-accent)); display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 1.75rem; color: #fff;">T</div>
+      <h1 style="font-size: 1.75rem; font-weight: 700; color: var(--color-text); margin-bottom: 0.5rem;">Criar conta</h1>
+      <p style="color: var(--color-text-muted);">Cadastre-se para começar sua jornada</p>
+    </div>
+
+    {% if erro %}
+    <div class="alert alert-error">{{ erro }}</div>
+    {% endif %}
+    {% if sucesso %}
+    <div class="alert alert-success">{{ sucesso }}</div>
+    {% endif %}
+
+    <form method="post" action="/cadastro">
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="username">Usuário</label>
+          <input type="text" id="username" name="username" class="form-control" required autocomplete="username" placeholder="seu_usuario">
+        </div>
+        <div class="form-group">
+          <label for="email">E-mail</label>
+          <input type="email" id="email" name="email" class="form-control" required autocomplete="email" placeholder="seu@email.com">
+        </div>
+        <div class="form-group">
+          <label for="tipo">Tipo de conta</label>
+          <select id="tipo" name="tipo" class="form-select">
+            <option value="aluno">Aluno</option>
+            <option value="professor">Professor</option>
+          </select>
+        </div>
+        <div class="form-group" style="grid-column: 1 / -1;">
+          <label for="senha">Senha</label>
+          <input type="password" id="senha" name="senha" class="form-control" required autocomplete="new-password" placeholder="••••••••">
+        </div>
+        <div class="form-group" style="grid-column: 1 / -1;">
+          <label for="confirmar_senha">Confirmar senha</label>
+          <input type="password" id="confirmar_senha" name="confirmar_senha" class="form-control" required autocomplete="new-password" placeholder="••••••••">
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary btn-full">Criar conta</button>
+    </form>
+
+    <div style="text-align: center; margin-top: 1.5rem;">
+      <p style="color: var(--color-text-muted); font-size: 0.9rem;">Já tem conta? <a href="/login" style="color: var(--color-brand); font-weight: 600;">Entrar</a></p>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Resultado da Missão - Trilhar{% endblock %}
+
+{% block content %}
+<div class="card" style="max-width: 500px; margin: 0 auto; text-align: center;">
+  <div class="card-body" style="padding: 3rem 2rem;">
+    <div style="font-size: 4rem; margin-bottom: 1rem;">
+      {% if correto %}🎉{% else %}😕{% endif %}
+    </div>
+    <h1 style="font-size: 1.5rem; font-weight: 700; color: var(--color.text); margin-bottom: 0.5rem;">
+      {% if correto %}Missão concluída com sucesso!{% else %}Tente novamente!{% endif %}
+    </h1>
+    <p style="color: var(--color.text-muted);">{{ mensagem }}</p>
+
+    <div style="margin: 2rem 0;">
+      {% if correto %}
+      <a href="/estudante/trilha/{{ trilha_id }}" class="btn btn-primary">Próxima missão</a>
+      {% else %}
+      <a href="/estudante/trilha/{{ trilha_id }}/missao/{{ missao_id }}" class="btn btn-primary">Tentar novamente</a>
+      {% endif %}
+      <a href="/estudante/trilhas" class="btn btn-outline" style="margin-left: 0.75rem;">Voltar às trilhas</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

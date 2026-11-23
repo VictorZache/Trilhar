@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}Trilhar{% endblock %}</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div class="app">
+  <nav class="navbar">
+    <div class="navbar-content">
+      <a href="/" class="navbar-brand">
+        <div class="logo-mark">T</div>
+        <div class="logo-text">Trilhar</div>
+      </a>
+      <div class="navbar-nav">
+        {% if user %}
+        <a href="/dashboard" class="navbar-item">Painel</a>
+        {% if user.tipo == "aluno" and user.quiz_feito %}
+        <a href="/estudante/trilhas" class="navbar-item active">Trilhas</a>
+        {% endif %}
+        {% endif %}
+      </div>
+      <div class="navbar-actions">
+        {% if user %}
+        <form method="post" action="/logout" style="display:inline;">
+          <button type="submit" class="btn btn-ghost btn-sm">Sair</button>
+        </form>
+        {% else %}
+        <a href="/login" class="btn btn-outline btn-sm">Entrar</a>
+        <a href="/cadastro" class="btn btn-primary btn-sm">Cadastrar</a>
+        {% endif %}
+      </div>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <div class="container">
+      {% block content %}{% endblock %}
+    </div>
+  </main>
+</div>
+
+<div id="toast-container" class="toast-container"></div>
+<script src="/static/toast.js"></script>
+</body>
+</html>
