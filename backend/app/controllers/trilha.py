@@ -61,6 +61,9 @@ def verificar_resposta(missao_id: int, aluno_id: int, resposta_usuario):
     if not missao:
         return {"correto": False, "mensagem": "Missão não encontrada."}
 
+    if not resposta_usuario:
+        return {"correto": False, "mensagem": "Envie uma resposta antes de continuar."}
+
     import json
     dados = json.loads(missao.dados_jogo) if missao.dados_jogo else {}
     correto = False

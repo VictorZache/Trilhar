@@ -38,7 +38,7 @@
   <div class="jogo-instrucao">Tipo de jogo: <strong>{{ missao.tipo_jogo }}</strong></div>
 
   {% if missao.tipo_jogo == "ordem" %}
-  <p style="color: var(--color.text-muted); text-align: center; margin-bottom: 1.5rem;">Arraste ou clique nos itens na ordem correta:</p>
+  <p style="color: var(--color-text-muted); text-align: center; margin-bottom: 1.5rem;">Arraste ou clique nos itens na ordem correta:</p>
   <div class="ordem-selecao" id="ordem-atual"></div>
   <div class="jogo-grid">
     {% for item in dados.itens %}
@@ -47,7 +47,7 @@
   </div>
 
   {% elif missao.tipo_jogo == "categoria" %}
-  <p style="color: var(--color.text-muted); text-align: center; margin-bottom: 1.5rem;">Arraste cada item para sua categoria:</p>
+  <p style="color: var(--color-text-muted); text-align: center; margin-bottom: 1.5rem;">Arraste cada item para sua categoria:</p>
   <div class="categoria-grid">
     {% for cat in dados.categorias %}
     <div class="categoria-card" data-categoria="{{ cat }}">
@@ -63,27 +63,27 @@
   </div>
 
   {% elif missao.tipo_jogo == "data" %}
-  <p style="color: var(--color.text-muted); text-align: center; margin-bottom: 1.5rem;">Organize do mais antigo para o mais recente:</p>
+  <p style="color: var(--color-text-muted); text-align: center; margin-bottom: 1.5rem;">Organize do mais antigo para o mais recente:</p>
   <div class="ordem-selecao" id="ordem-atual"></div>
   <div class="jogo-grid">
     {% for item in dados.itens %}
     <div class="jogo-card numero" data-valor="{{ item.nome }}" onclick="selecionarOrdem('{{ item.nome }}')">
       {{ item.nome }}
-      <br><span style="font-size: 0.875rem; color: var(--color.text-muted);">{{ item.data }}</span>
+      <br><span style="font-size: 0.875rem; color: var(--color-text-muted);">{{ item.data }}</span>
     </div>
     {% endfor %}
   </div>
 
   {% else %}
-  <div style="text-align: center; padding: 2rem; background: var(--color.surface-hover); border-radius: var(--radius.lg); border: 1px solid var(--color.border);">
-    <div style="font-size: 0.875rem; color: var(--color.text-muted); margin-bottom: 0.5rem;">Tipo de jogo: <strong>{{ missao.tipo_jogo }}</strong></div>
-    <div style="font-size: 0.95rem; color: var(--color.text-secondary);">{{ dados.conhecimento.descricao if dados.conhecimento else missao.descricao }}</div>
-    <div style="margin-top: 1rem; font-size: 0.875rem; color: var(--color.text-muted);">Minigame "{{ missao.tipo_jogo }}" - conteúdo teórico carregado acima.</div>
+  <div style="text-align: center; padding: 2rem; background: var(--color-surface-hover); border-radius: var(--radius-lg); border: 1px solid var(--color-border);">
+    <div style="font-size: 0.875rem; color: var(--color-text-muted); margin-bottom: 0.5rem;">Tipo de jogo: <strong>{{ missao.tipo_jogo }}</strong></div>
+    <div style="font-size: 0.95rem; color: var(--color-text-secondary);">{{ dados.conhecimento.descricao if dados.conhecimento else missao.descricao }}</div>
+    <div style="margin-top: 1rem; font-size: 0.875rem; color: var(--color-text-muted);">Minigame "{{ missao.tipo_jogo }}" - conteúdo teórico carregado acima.</div>
   </div>
   {% endif %}
 
   <div class="quiz-actions" style="margin-top: 1.5rem; display: flex; gap: 0.75rem; justify-content: center;">
-    <button type="submit" class="btn btn-primary">Enviar resposta</button>
+    <button type="submit" form="jogo-form" class="btn btn-primary">Enviar resposta</button>
     <a href="/estudante/trilha/{{ trilha_id }}" class="btn btn-outline">Pular</a>
   </div>
 </div>

@@ -68,3 +68,16 @@ class UserRepository:
             return c.fetchone() is not None
         finally:
             conn.close()
+
+    # ✅ DEPOIS (em backend/app/models/user.py — responsabilidade no repositório certo)
+    def registrar_quiz(self, user_id: int, carreira_recomendada: str) -> None:
+        conn = get_conn()
+        try:
+            c = conn.cursor()
+            c.execute(
+                "UPDATE users SET quiz_feito = 1, carreira_recomendada = ? WHERE id = ?",
+                (carreira_recomendada, user_id),
+            )
+            conn.commit()
+        finally:
+            conn.close()

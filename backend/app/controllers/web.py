@@ -5,7 +5,7 @@ from datetime import datetime, timedelta, timezone
 import secrets
 
 from app.controllers.auth import cadastrar_usuario, autenticar_usuario
-from app.controllers.dashboard import obter_usuario_logado
+from app.controllers.auth import obter_usuario_logado
 from app.config import SESSION_DURATION_DAYS
 from app.models.session import SessionRepository
 
@@ -110,7 +110,11 @@ def dashboard_get(request: Request):
     )
 
 
-def logout():
+# ✅ DEPOIS (apaga o cookie E remove a sessão do banco)
+def logout(request: Request):
+    token = request.cookies.get("session_token")
+    if token:
+        session_repo.delete(token)
     resp = RedirectResponse("/login", status_code=status.HTTP_302_FOUND)
     resp.delete_cookie("session_token")
     return resp

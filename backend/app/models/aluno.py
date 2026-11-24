@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+'''from dataclasses import dataclass
 from app.database import get_conn
 
 
@@ -75,4 +75,4 @@ class AlunoRepository:
             c.execute("UPDATE alunos SET quiz_feito = 1 WHERE id = ?", (aluno_id,))
             conn.commit()
         finally:
-            conn.close()
+            conn.close()'''
