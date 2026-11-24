@@ -49,3 +49,6 @@ def autenticar_usuario(username: str, senha: str):
         "tipo": getattr(usuario, "tipo", "aluno"),
         "quiz_feito": getattr(usuario, "quiz_feito", 0),
     }, token
+
+def obter_usuario_logado(token: str | None):
+    return session_repo.get_by_token(token)

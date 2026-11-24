@@ -2,7 +2,7 @@ from fastapi import APIRouter, Request, Form, status
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 
-from app.controllers.dashboard import obter_usuario_logado
+from app.controllers.auth import obter_usuario_logado
 from app.controllers.trilha import (
     listar_trilhas,
     obter_trilha,

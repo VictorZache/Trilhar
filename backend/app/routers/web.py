@@ -16,7 +16,7 @@ router = APIRouter()
 @router.get("/", response_class=HTMLResponse)
 async def root(request: Request):
     token = request.cookies.get("session_token")
-    from app.controllers.dashboard import obter_usuario_logado
+    from app.controllers.auth import obter_usuario_logado
 
     usuario = obter_usuario_logado(token)
     if usuario:
@@ -61,5 +61,5 @@ async def get_dashboard(request: Request):
 
 
 @router.post("/logout")
-async def post_logout():
-    return logout()
+async def post_logout(request: Request):
+    return logout(request)

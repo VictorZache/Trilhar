@@ -5,12 +5,12 @@
 {% block content %}
 <div class="card" style="max-width: 600px; margin: 0 auto;">
   <div class="card-body" style="text-align: center;">
-    <div style="width: 80px; height: 80px; border-radius: 24px; background: linear-gradient(135deg, {{ resultado.carreira.cor }}, {{ resultado.carneira.cor }})22; color: {{ resultado.carreira.cor }}; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; font-size: 2rem; box-shadow: 0 0 30px {{ resultado.carneira.cor }}40;">🏆</div>
+    <div style="width: 80px; height: 80px; border-radius: 24px; background: linear-gradient(135deg, {{ resultado.carreira.cor }}, {{ resultado.carreira.cor }}22); color: {{ resultado.carreira.cor }}; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; font-size: 2rem; box-shadow: 0 0 30px {{ resultado.carreira.cor }}40;">🏆</div>
     <h1 style="font-size: 2rem; font-weight: 700; color: var(--color-text); margin-bottom: 0.5rem;">Seu Resultado</h1>
-    <h2 style="color: {{ resultado.carneira.cor }}; font-size: 1.5rem; margin-bottom: 0.5rem;">{{ resultado.carneira.nome }}</h2>
-    <p style="color: var(--color.text-muted);">{{ resultado.carneira.descricao }}</p>
+    <h2 style="color: {{ resultado.carreira.cor }}; font-size: 1.5rem; margin-bottom: 0.5rem;">{{ resultado.carreira.nome }}</h2>
+    <p style="color: var(--color-text-muted);">{{ resultado.carreira.descricao }}</p>
     <div style="margin: 1.5rem 0;">
-      <div style="display: flex; justify-content: space-between; font-size: 0.875rem; color: var(--color.text-secondary); margin-bottom: 0.5rem;">
+      <div style="display: flex; justify-content: space-between; font-size: 0.875rem; color: var(--color-text-secondary); margin-bottom: 0.5rem;">
         <span>Pontuação</span>
         <span>{{ resultado.pontos }} / {{ resultado.total }}</span>
       </div>
@@ -19,18 +19,18 @@
       </div>
     </div>
 
-    <h3 style="font-size: 1.125rem; font-weight: 600; color: var(--color.text); margin-top: 2rem; text-align: left;">Ranking de afinidade</h3>
+    <h3 style="font-size: 1.125rem; font-weight: 600; color: var(--color-text); margin-top: 2rem; text-align: left;">Ranking de afinidade</h3>
     <div style="margin-bottom: 2rem;">
       {% for carreira_id, pontos in resultado.ranking %}
       <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
-        <div style="width: 30px; font-size: 0.875rem; color: var(--color.text-muted); font-weight: 600;">{{ loop.index }}.</div>
+        <div style="width: 30px; font-size: 0.875rem; color: var(--color-text-muted); font-weight: 600;">{{ loop.index }}.</div>
         <div style="flex: 1;">
           <div style="display: flex; justify-content: space-between; font-size: 0.875rem; margin-bottom: 4px;">
-            <span style="color: var(--color.text-secondary);">{% for c in resultado.todas_carneiras if c.id == carreira_id %}{{ c.nome }}{% endfor %}</span>
-            <span style="color: var(--color.text-muted);">{{ pontos }} pts</span>
+            <span style="color: var(--color-text-secondary);">{% for c in resultado.todas_carreiras if c.id == carreira_id %}{{ c.nome }}{% endfor %}</span>
+            <span style="color: var(--color-text-muted);">{{ pontos }} pts</span>
           </div>
-          <div style="height: 6px; background: var(--color.border); border-radius: 3px; overflow: hidden;">
-            <div style="height: 100%; background: {% for c in resultado.todas_carneiras if c.id == carreira_id %}{{ c.cor }}{% endfor %}; width: {{ (pontos / resultado.total) * 100 }}%; border-radius: 3px;"></div>
+          <div style="height: 6px; background: var(--color-border); border-radius: 3px; overflow: hidden;">
+            <div style="height: 100%; background: {% for c in resultado.todas_carreiras if c.id == carreira_id %}{{ c.cor }}{% endfor %}; width: {{ (pontos / resultado.total) * 100 }}%; border-radius: 3px;"></div>
           </div>
         </div>
       </div>
@@ -38,7 +38,7 @@
     </div>
 
     <div style="display: flex; gap: 12px; justify-content: center;">
-      <a href="/" class="btn btn-outline btn-sm">Fazer novamente</a>
+      <a href="/estudante/trilhas" class="btn btn-outline btn-sm">Ver minha trilha</a>
       <a href="/dashboard" class="btn btn-primary btn-sm">Ir para o painel</a>
     </div>
   </div>
