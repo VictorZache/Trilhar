@@ -11,7 +11,9 @@
 <div class="dashboard-grid">
   {% if user.tipo == "aluno" %}
   <div class="dashboard-card">
-    <div class="dashboard-card-icon">🎯</div>
+    <div class="dashboard-card-icon" aria-hidden="true">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+    </div>
     <h3>Quiz de Carreira</h3>
     <p>Descubra qual carreira de TI combina com você</p>
     {% if user.quiz_feito %}
@@ -21,14 +23,18 @@
     {% endif %}
   </div>
   <div class="dashboard-card">
-    <div class="dashboard-card-icon">🗺️</div>
+    <div class="dashboard-card-icon" aria-hidden="true">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg>
+    </div>
     <h3>Trilhas de Aprendizagem</h3>
     <p>Escolha uma trilha e comece a aprender</p>
     <a href="/estudante/trilhas" class="btn btn-primary btn-sm">Ver Trilhas</a>
   </div>
   {% else %}
   <div class="dashboard-card">
-    <div class="dashboard-card-icon">👨‍🏫</div>
+    <div class="dashboard-card-icon" aria-hidden="true">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+    </div>
     <h3>Área do Professor</h3>
     <p>Gerencie turmas e acompanhe alunos</p>
     <a href="/dashboard" class="btn btn-outline btn-sm">Em breve</a>
@@ -38,13 +44,7 @@
 
 {% if user.tipo == "aluno" and user.quiz_feito %}
 <div class="alert alert-info">
-  ✅ Você já concluiu o quiz de carreira! Acesse as trilhas para começar a aprender.
+  Você já concluiu o quiz de carreira! Acesse as trilhas para começar a aprender.
 </div>
 {% endif %}
-
-<div style="text-align: center; margin-top: 2rem;">
-  <form method="post" action="/logout" style="display:inline;">
-    <button type="submit" class="btn btn-ghost">Sair</button>
-  </form>
-</div>
 {% endblock %}

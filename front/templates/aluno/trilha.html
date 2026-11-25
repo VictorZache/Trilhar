@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% from "_macros.html" import trilha_icone, label_tipo_jogo %}
 
 {% block title %}{{ trilha.nome }} - Trilhar{% endblock %}
 
@@ -8,10 +9,10 @@
     <h1>{{ trilha.nome }}</h1>
     <p>{{ trilha.descricao }}</p>
   </div>
-  <div style="font-size: 4rem; opacity: 0.2;">{{ trilha.icone }}</div>
+  <div style="opacity: 0.25; flex-shrink: 0;">{{ trilha_icone(trilha.icone, 64) }}</div>
 </div>
 
-<h2 style="font-size: 1.25rem; font-weight: 600; color: var(--color-text); margin-bottom: 1rem;">Suas Missões</h2>
+<h2 style="font-size: 1.25rem; font-weight: 600; color: var(--foreground); margin-bottom: 1rem;">Suas Missões</h2>
 
 <div class="missoes-grid">
   {% for m in missoes %}
@@ -19,7 +20,7 @@
     <div class="missao-card-header">
       <div>
         <h3>{{ m.titulo }}</h3>
-        <span class="tipo-jogo-badge"><span class="tipo-dot"></span>{{ m.tipo_jogo }}</span>
+        <span class="tipo-jogo-badge"><span class="tipo-dot"></span>{{ label_tipo_jogo(m.tipo_jogo) }}</span>
       </div>
       <div class="missao-ordem">{{ m.ordem }}</div>
     </div>

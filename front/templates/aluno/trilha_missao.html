@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% from "_macros.html" import label_tipo_jogo %}
 {% block title %}{{ missao.titulo }} - Trilhar{% endblock %}
 
 {% block content %}
@@ -12,11 +12,7 @@
 </div>
 
 <div class="missao-page-nav">
-  <a href="/estudante/trilha/{{ trilha_id }}" class="btn btn-ghost btn-sm">← Voltar à trilha</a>
-  <a href="/dashboard" class="btn btn-ghost btn-sm">Painel</a>
-  <form method="post" action="/logout" style="display:inline;">
-    <button type="submit" class="btn btn-ghost btn-sm">Sair</button>
-  </form>
+  <a href="/estudante/trilha/{{ trilha_id }}" class="btn btn-ghost btn-sm">← Voltar às missões</a>
 </div>
 
 <div class="missao-progress-container">
@@ -35,7 +31,7 @@
 </div>
 
 <div class="jogo-container">
-  <div class="jogo-instrucao">Tipo de jogo: <strong>{{ missao.tipo_jogo }}</strong></div>
+  <div class="jogo-instrucao"><div class="jogo-instrucao">Atividade: <strong>{{ label_tipo_jogo(missao.tipo_jogo) }}</strong></div>
 
   {% if missao.tipo_jogo == "ordem" %}
   <p style="color: var(--color-text-muted); text-align: center; margin-bottom: 1.5rem;">Arraste ou clique nos itens na ordem correta:</p>
@@ -76,9 +72,9 @@
 
   {% else %}
   <div style="text-align: center; padding: 2rem; background: var(--color-surface-hover); border-radius: var(--radius-lg); border: 1px solid var(--color-border);">
-    <div style="font-size: 0.875rem; color: var(--color-text-muted); margin-bottom: 0.5rem;">Tipo de jogo: <strong>{{ missao.tipo_jogo }}</strong></div>
+    <div style="font-size: 0.875rem; color: var(--muted-foreground); margin-bottom: 0.5rem;">Atividade: <strong>{{ label_tipo_jogo(missao.tipo_jogo) }}</strong></div>
     <div style="font-size: 0.95rem; color: var(--color-text-secondary);">{{ dados.conhecimento.descricao if dados.conhecimento else missao.descricao }}</div>
-    <div style="margin-top: 1rem; font-size: 0.875rem; color: var(--color-text-muted);">Minigame "{{ missao.tipo_jogo }}" - conteúdo teórico carregado acima.</div>
+    <div style="margin-top: 1rem; font-size: 0.875rem; color: var(--muted-foreground);">Minigame "{{ label_tipo_jogo(missao.tipo_jogo) }}" - conteúdo teórico carregado acima.</div>
   </div>
   {% endif %}
 
