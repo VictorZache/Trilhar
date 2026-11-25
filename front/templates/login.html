@@ -5,10 +5,10 @@
 {% block content %}
 <div class="card" style="max-width: 420px; margin: 0 auto;">
   <div class="card-body">
-    <div style="text-align: center; margin-bottom: 2rem;">
-      <div style="width: 56px; height: 56px; border-radius: 16px; background: linear-gradient(135deg, var(--color-brand), var(--color-accent)); display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 1.75rem; color: #fff;">T</div>
-      <h1 style="font-size: 1.75rem; font-weight: 700; color: var(--color-text); margin-bottom: 0.5rem;">Entrar</h1>
-      <p style="color: var(--color-text-muted);">Acesse sua conta para continuar</p>
+    <div style="text-align: center; margin-bottom: 1.75rem;">
+      <div style="width: 48px; height: 48px; border-radius: 12px; background: var(--primary); color: var(--primary-foreground); display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 1.35rem; font-weight: 800;">T</div>
+      <h1 style="font-size: 1.6rem; font-weight: 700; color: var(--foreground); margin-bottom: 0.35rem;">Entrar</h1>
+      <p style="color: var(--muted-foreground); font-size: 0.95rem;">Acesse sua conta para continuar</p>
     </div>
 
     {% if erro %}
@@ -28,7 +28,7 @@
     </form>
 
     <div style="text-align: center; margin-top: 1.5rem;">
-      <p style="color: var(--color-text-muted); font-size: 0.9rem;">Não tem conta? <a href="/cadastro" style="color: var(--color-brand); font-weight: 600;">Criar conta</a></p>
+      <p style="color: var(--color-text-muted); font-size: 0.9rem;">Não tem conta? <a href="/cadastro" style="color: var(--foreground); font-weight: 600; text-decoration: underline;">Criar conta</a></p>
     </div>
   </div>
 </div>

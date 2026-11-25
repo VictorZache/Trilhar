@@ -1,7 +1,8 @@
-from fastapi import APIRouter, Request, Form, status
-from fastapi.responses import HTMLResponse, RedirectResponse
+from fastapi import APIRouter, Request, Form
+from fastapi.responses import HTMLResponse
 
 from app.controllers.web import (
+    landing_page,
     cadastro_page,
     cadastro_post,
     login_page,
@@ -15,13 +16,7 @@ router = APIRouter()
 
 @router.get("/", response_class=HTMLResponse)
 async def root(request: Request):
-    token = request.cookies.get("session_token")
-    from app.controllers.auth import obter_usuario_logado
-
-    usuario = obter_usuario_logado(token)
-    if usuario:
-        return RedirectResponse("/dashboard")
-    return RedirectResponse("/login")
+    return landing_page(request)
 
 
 @router.get("/login", response_class=HTMLResponse)

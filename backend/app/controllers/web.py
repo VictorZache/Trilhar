@@ -13,6 +13,13 @@ session_repo = SessionRepository()
 
 templates = Jinja2Templates(directory="front/templates")
 
+def landing_page(request: Request):
+    token = request.cookies.get("session_token")
+    usuario = obter_usuario_logado(token)
+    return templates.TemplateResponse(
+        "landing.html", {"request": request, "user": usuario}
+    )
+
 
 def cadastro_page(request: Request):
     return templates.TemplateResponse(

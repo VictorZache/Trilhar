@@ -1,0 +1,168 @@
+{% extends "base.html" %}
+
+{% block title %}Trilhar — Descubra sua carreira em tecnologia{% endblock %}
+
+{% block main_area %}
+<main class="main-content--full">
+  <section class="lp-hero">
+    <div class="lp-container">
+      <div class="lp-badge">
+        <span>100% gratuito para estudantes da rede pública</span>
+      </div>
+
+      <h1 class="lp-hero-title">
+        Descubra sua carreira em
+        <span class="lp-hero-highlight">tecnologia</span>
+        e aprenda na prática
+      </h1>
+
+      <p class="lp-hero-subtitle">
+        Faça um quiz vocacional rápido, receba sua trilha personalizada e resolva missões interativas direto do celular ou computador, sem precisar instalar nada.
+      </p>
+
+      <div class="lp-hero-actions">
+        {% if user %}
+          <a href="/dashboard" class="btn btn-primary btn-lg">
+            Ir para o meu Painel
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </a>
+          {% if user.tipo == "aluno" and not user.quiz_feito %}
+          <a href="/aluno/quiz" class="btn btn-outline btn-lg">Fazer Quiz de Carreira</a>
+          {% else %}
+          <a href="/estudante/trilhas" class="btn btn-outline btn-lg">Explorar Trilhas</a>
+          {% endif %}
+        {% else %}
+          <a href="/cadastro" class="btn btn-primary btn-lg">
+            Começar gratuitamente
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </a>
+          <a href="/login" class="btn btn-outline btn-lg">Já tenho conta</a>
+        {% endif %}
+      </div>
+
+      <div class="lp-scene" aria-hidden="true">
+        <div class="lp-hub"><div class="lp-hub-inner">T</div></div>
+        <div class="lp-float-card">
+          <div class="lp-float-label">Etapa 1</div>
+          <div class="lp-float-title">Quiz de Carreira</div>
+          <div class="lp-float-bar"><span style="width: 85%;"></span></div>
+        </div>
+        <div class="lp-float-card">
+          <div class="lp-float-label">Trilha</div>
+          <div class="lp-float-title">Desenvolvimento</div>
+          <div class="lp-float-bar"><span style="width: 72%;"></span></div>
+        </div>
+        <div class="lp-float-card">
+          <div class="lp-float-label">Trilha</div>
+          <div class="lp-float-title">Dados & IA</div>
+          <div class="lp-float-bar"><span style="width: 64%;"></span></div>
+        </div>
+        <div class="lp-float-card">
+          <div class="lp-float-label">Trilha</div>
+          <div class="lp-float-title">Segurança Digital</div>
+          <div class="lp-float-bar"><span style="width: 90%;"></span></div>
+        </div>
+        <div class="lp-float-card">
+          <div class="lp-float-label">Prática</div>
+          <div class="lp-float-title">Missões Guiadas</div>
+          <div class="lp-float-bar"><span style="width: 78%;"></span></div>
+        </div>
+        <div class="lp-float-card">
+          <div class="lp-float-label">Acesso</div>
+          <div class="lp-float-title">Celular e PC</div>
+          <div class="lp-float-bar"><span style="width: 100%;"></span></div>
+        </div>
+        <svg class="lp-scene-lines" viewBox="0 0 920 380" preserveAspectRatio="none">
+          <line x1="50%" y1="50%" x2="15%" y2="20%" stroke="#030213" stroke-width="2" />
+          <line x1="50%" y1="50%" x2="85%" y2="22%" stroke="#030213" stroke-width="2" />
+          <line x1="50%" y1="50%" x2="18%" y2="80%" stroke="#030213" stroke-width="2" />
+          <line x1="50%" y1="50%" x2="82%" y2="80%" stroke="#030213" stroke-width="2" />
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section id="como-funciona" class="lp-section lp-section--muted">
+    <div class="lp-container">
+      <div class="lp-section-header">
+        <h2>Tudo o que você precisa para dar o primeiro passo em TI</h2>
+        <p>Uma jornada pensada para quem está começando do zero, com linguagem clara, prática guiada e foco no mercado real.</p>
+      </div>
+      <div class="lp-grid-4">
+        <article class="lp-feature-card">
+          <div class="lp-feature-top">
+            <div class="lp-feature-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+            </div>
+            <span class="lp-tag">Vocacional</span>
+          </div>
+          <h3>Quiz de Carreira</h3>
+          <p>Responda perguntas simples sobre seus interesses e veja um ranking das áreas de tecnologia que mais combinam com você.</p>
+        </article>
+        <article class="lp-feature-card">
+          <div class="lp-feature-top">
+            <div class="lp-feature-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            </div>
+            <span class="lp-tag">Guiado</span>
+          </div>
+          <h3>Trilhas de Aprendizagem</h3>
+          <p>Conteúdos organizados em missões curtas para você evoluir passo a passo em lógica, programação, dados e segurança.</p>
+        </article>
+        <article class="lp-feature-card">
+          <div class="lp-feature-top">
+            <div class="lp-feature-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            </div>
+            <span class="lp-tag">Na prática</span>
+          </div>
+          <h3>Missões Interativas</h3>
+          <p>Aprenda resolvendo desafios práticos e situações reais de trabalho, em vez de apenas decorar teoria.</p>
+        </article>
+        <article class="lp-feature-card">
+          <div class="lp-feature-top">
+            <div class="lp-feature-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg>
+            </div>
+            <span class="lp-tag">Acessível</span>
+          </div>
+          <h3>Leve para Celular</h3>
+          <p>Interface limpa, alto contraste e carregamento rápido para funcionar bem tanto no computador da escola quanto no celular.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="depoimentos" class="lp-section">
+    <div class="lp-container">
+      <div class="lp-section-header">
+        <h2>Construído para aproximar a escola pública da tecnologia</h2>
+        <p>Veja como o Trilhar ajuda estudantes a descobrir caminhos e professores a acompanhar o interesse da turma.</p>
+      </div>
+      <div class="lp-grid-3">
+        <article class="lp-testimonial-card">
+          <blockquote>"Eu achava que trabalhar com tecnologia era só consertar computador. No quiz descobri análise de dados e comecei minha primeira trilha no mesmo dia."</blockquote>
+          <div class="lp-author">
+            <div class="lp-avatar" aria-hidden="true">MS</div>
+            <div><div class="lp-author-name">Mariana Silva</div><div class="lp-author-role">Estudante do 2º ano — Ensino Médio</div></div>
+          </div>
+        </article>
+        <article class="lp-testimonial-card">
+          <blockquote>"As missões são curtas e vão direto ao ponto. Consigo fazer duas atividades no ônibus voltando da escola usando apenas o celular."</blockquote>
+          <div class="lp-author">
+            <div class="lp-avatar" aria-hidden="true">LO</div>
+            <div><div class="lp-author-name">Lucas Oliveira</div><div class="lp-author-role">Estudante do 3º ano — Rede Pública</div></div>
+          </div>
+        </article>
+        <article class="lp-testimonial-card">
+          <blockquote>"Ter uma ferramenta gratuita e em português ajuda muito a despertar a curiosidade dos alunos pelas áreas de computação sem barreiras técnicas."</blockquote>
+          <div class="lp-author">
+            <div class="lp-avatar" aria-hidden="true">CA</div>
+            <div><div class="lp-author-name">Camila Almeida</div><div class="lp-author-role">Professora de Matemática e Robótica</div></div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+</main>
+{% endblock %}
