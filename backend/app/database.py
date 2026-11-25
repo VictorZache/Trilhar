@@ -4,6 +4,7 @@ import json
 
 from app.config import DB_PATH, DATA_DIR
 from app.quiz_data import CAREERS
+from app.hq_piloto import MISSAO_PILOTO_GITHUB
 
 # Tipo de jogo para cada posicao de conhecimento (0-9)
 TIPOS_JOGO = [
@@ -25,6 +26,51 @@ def get_conn():
     conn = sqlite3.connect(DB_PATH)
     conn.row_factory = sqlite3.Row
     return conn
+
+
+def _garantir_trilha_piloto_hq(c):
+    """Garante de forma idempotente que a Trilha Introdutória de GitHub exista mesmo em bancos já criados."""
+    nome_trilha = "Introdução ao GitHub"
+    c.execute("SELECT id FROM trilhas WHERE nome = ?", (nome_trilha,))
+    row = c.fetchone()
+    if not row:
+        c.execute(
+            "INSERT INTO trilhas (nome, descricao, icone, cor, ordem) VALUES (?, ?, ?, ?, ?)",
+            (
+                nome_trilha,
+                "Aprenda na prática como se conectar ao repositório de um projeto real no GitHub.",
+                "code",
+                "#030213",
+                0,
+            ),
+        )
+        trilha_id = c.lastrowid
+    else:
+        trilha_id = row[0]
+
+    c.execute(
+        "SELECT id FROM missoes WHERE trilha_id = ? AND tipo_jogo = ?",
+        (trilha_id, "hq_investigacao"),
+    )
+    missao_row = c.fetchone()
+    dados_json = json.dumps(MISSAO_PILOTO_GITHUB, ensure_ascii=False)
+    if not missao_row:
+        c.execute(
+            "INSERT INTO missoes (trilha_id, titulo, descricao, tipo_jogo, dados_jogo, ordem) VALUES (?, ?, ?, ?, ?, ?)",
+            (
+                trilha_id,
+                MISSAO_PILOTO_GITHUB["meta"]["titulo"],
+                MISSAO_PILOTO_GITHUB["meta"]["objetivo"],
+                "hq_investigacao",
+                dados_json,
+                1,
+            ),
+        )
+    else:
+        c.execute(
+            "UPDATE missoes SET dados_jogo = ? WHERE id = ?",
+            (dados_json, missao_row[0]),
+        )
 
 
 def init_db():
@@ -171,6 +217,7 @@ def init_db():
                             i,
                         ),
                     )
+        _garantir_trilha_piloto_hq(c)
         conn.commit()
     finally:
         conn.close()
