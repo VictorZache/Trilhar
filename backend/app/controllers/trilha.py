@@ -1,3 +1,4 @@
+import json
 from app.models.trilha import TrilhaRepository, MissaoRepository, ProgressoTrilhaRepository, RespostaMissaoRepository
 from app.quiz_data import CAREERS
 
@@ -12,7 +13,8 @@ def listar_trilhas(aluno_id: int, carreira_recomendada: str | None = None) -> li
     resultado = []
     for t in trilhas:
         # Mostrar apenas a trilha recomendada pelo quiz
-        if carreira_recomendada and t.nome != carreira_recomendada:
+        eh_introdutoria = t.ordem == 0
+        if carreira_recomendada and not eh_introdutoria and t.nome != carreira_recomendada:
             continue
         progresso = progresso_repo.get_ou_criar(aluno_id, t.id)
         resultado.append({
@@ -23,7 +25,8 @@ def listar_trilhas(aluno_id: int, carreira_recomendada: str | None = None) -> li
             "cor": t.cor,
             "missao_atual": progresso["missao_atual"],
             "concluida": progresso["concluida"],
-            "recomendada": True,
+            "recomendada": t.nome == carreira_recomendada,
+            "introdutoria": eh_introdutoria,
         })
     return resultado
 
@@ -56,6 +59,26 @@ def obter_missao(missao_id: int, aluno_id: int):
     }
 
 
+def _validar_hq_investigacao(dados: dict, resposta_usuario) -> tuple[bool, str]:
+    if not isinstance(resposta_usuario, dict):
+        return False, "Formato de resposta inválido para a investigação em HQ."
+
+    cenas_esperadas = [c["id"] for c in dados.get("cenas", [])]
+    cenas_feitas = set(resposta_usuario.get("cenas_concluidas", []))
+    if not all(cid in cenas_feitas for cid in cenas_esperadas):
+        return False, "Conclua todas as cenas da investigação antes de finalizar a missão."
+
+    quiz_cfg = dados.get("fechamento", {}).get("quiz", {})
+    questoes = quiz_cfg.get("questoes", [])
+    nota_minima = quiz_cfg.get("nota_minima", len(questoes))
+    respostas_quiz = resposta_usuario.get("respostas_quiz", {})
+
+    acertos = sum(1 for q in questoes if respostas_quiz.get(q["id"]) == q["correta_idx"])
+    if acertos >= nota_minima:
+        return True, f"Missão concluída! Você completou a investigação e acertou {acertos} de {len(questoes)} no quiz."
+    return False, f"Você acertou {acertos} de {len(questoes)} no quiz complementar (mínimo {nota_minima}). Revise a leitura e tente novamente!"
+
+
 def verificar_resposta(missao_id: int, aluno_id: int, resposta_usuario):
     missao = missao_repo.get_por_id(missao_id)
     if not missao:
@@ -84,6 +107,8 @@ def verificar_resposta(missao_id: int, aluno_id: int, resposta_usuario):
         ordem_correta = dados.get("ordem_correta", [])
         correto = resposta_usuario == ordem_correta
         mensagem = "Parabéns! Você ordenou corretamente por data." if correto else "Não quite, verifique as datas."
+    elif missao.tipo_jogo == "hq_investigacao":
+        correto, mensagem = _validar_hq_investigacao(dados, resposta_usuario)
 
     resposta_repo.salvar(aluno_id, missao_id, correto)
 

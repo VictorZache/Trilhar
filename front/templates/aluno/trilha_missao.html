@@ -15,6 +15,17 @@
   <a href="/estudante/trilha/{{ trilha_id }}" class="btn btn-ghost btn-sm">← Voltar às missões</a>
 </div>
 
+{% if missao.tipo_jogo == "hq_investigacao" %}
+<link rel="stylesheet" href="/static/hq.css">
+<div class="hq-wrapper" id="hq-app"></div>
+<script id="hq-dados-json" type="application/json">{{ dados | tojson }}</script>
+<form id="jogo-form" method="post" action="/estudante/trilha/{{ trilha_id }}/missao/{{ missao_id }}" style="display: none;">
+  <input type="hidden" name="tipo_jogo" value="{{ missao.tipo_jogo }}">
+  <input type="hidden" name="resposta" id="resposta-hidden">
+</form>
+<script src="/static/hq.js"></script>
+{% else %}
+
 <div class="missao-progress-container">
   <div class="missao-progress-label">
     <span>Progresso</span>
@@ -150,4 +161,5 @@
     }
   });
 </script>
+{% endif %}
 {% endblock %}
