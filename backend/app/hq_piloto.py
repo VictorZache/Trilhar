@@ -21,8 +21,8 @@ MISSAO_PILOTO_GITHUB = {
             "tipo_cena": "hq",
             "titulo": "Boas-vindas na Empresa",
             "visual": {
-                "tipo": "svg_cena",
-                "src": "escritorio_boas_vindas",
+                "tipo": "imagem",
+                "src": "/static/hq_images/cena_boas_vindas.png",
             },
             "baloes": [
                 {
@@ -48,6 +48,10 @@ MISSAO_PILOTO_GITHUB = {
             "ordem": 2,
             "tipo_cena": "computador",
             "titulo": "Estação de Trabalho",
+            "visual": {
+                "tipo": "imagem",
+                "src": "/static/hq_images/cena_mesa_pc.png",
+            },
             "apps": ["navegador_github", "assistente_ia", "terminal", "vscode"],
             "repositorio_alvo": {
                 "nome": "empresa-tech/projeto-trilhar",
@@ -161,8 +165,8 @@ MISSAO_PILOTO_GITHUB = {
             "tipo_cena": "hq",
             "titulo": "Primeira Demanda Concluída!",
             "visual": {
-                "tipo": "svg_cena",
-                "src": "escritorio_alivio",
+                "tipo": "imagem",
+                "src": "/static/hq_images/cena_alivio.png",
             },
             "baloes": [
                 {
